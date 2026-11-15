@@ -1,0 +1,25 @@
+# Node / Playwright
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# Robot Framework
+output.xml
+log.html
+report.html
+results/
+browser/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
