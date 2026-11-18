@@ -21,3 +21,15 @@ TC-10 Add products to cart
     Get Text     [data-test="inventory-item-price"] >> nth=0    ==    $29.99
     Get Text     [data-test="inventory-item-name"] >> nth=1    ==    Sauce Labs Bolt T-Shirt
     Get Text     [data-test="inventory-item-price"] >> nth=1    ==    $15.99
+
+TC-11 Remove a product from the cart
+    [Documentation]    Verify that a product can be removed from the cart.
+    [Tags]    TC-11    medium
+    Log In As    ${STANDARD_USER}
+    Click        [data-test="add-to-cart-sauce-labs-backpack"]
+    Click        [data-test="add-to-cart-sauce-labs-bolt-t-shirt"]
+    Click        [data-test="shopping-cart-link"]
+    Click        [data-test="remove-sauce-labs-backpack"]
+    Get Element Count    [data-test="inventory-item"]    ==    1
+    Get Text     [data-test="inventory-item-name"]    ==    Sauce Labs Bolt T-Shirt
+    Get Text     [data-test="shopping-cart-badge"]    ==    1

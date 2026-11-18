@@ -31,4 +31,22 @@ test.describe('Shopping cart', () => {
     ]);
     await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText(['$29.99', '$15.99']);
   });
+
+  test('TC-11 Remove a product from the cart', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(USERS.standard);
+
+    // Precondition: two products in the cart
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+    await page.locator('[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]').click();
+    await page.locator('[data-test="shopping-cart-link"]').click();
+
+    // Remove the Backpack from the cart
+    await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
+
+    // Only the Bolt T-Shirt remains and the badge shows 1
+    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText(['Sauce Labs Bolt T-Shirt']);
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+  });
 });
