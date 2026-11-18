@@ -15,3 +15,17 @@ TC-08 Logout and protected page access
     Get Url      ==    ${BASE_URL}/
     Go To        ${BASE_URL}/inventory.html
     Get Text     [data-test="error"]    ==    Epic sadface: You can only access '/inventory.html' when you are logged in.
+
+TC-09 Reset App State clears the cart
+    [Documentation]    Verify the data management function that resets the application state.
+    [Tags]    TC-09    low
+    Log In As    ${STANDARD_USER}
+    Click        [data-test="add-to-cart-sauce-labs-backpack"]
+    Click        [data-test="add-to-cart-sauce-labs-bike-light"]
+    Get Text     [data-test="shopping-cart-badge"]    ==    2
+    Click        id=react-burger-menu-btn
+    Click        [data-test="reset-sidebar-link"]
+    Click        id=react-burger-cross-btn
+    Get Element Count    [data-test="shopping-cart-badge"]    ==    0
+    Click        [data-test="shopping-cart-link"]
+    Get Element Count    [data-test="inventory-item"]    ==    0
