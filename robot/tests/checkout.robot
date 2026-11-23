@@ -55,6 +55,15 @@ TC-14 Order overview totals are correct
     Get Text     [data-test="tax-label"]         ==    Tax: $3.20
     Get Text     [data-test="total-label"]       ==    Total: $43.18
 
+TC-15 Cancel checkout keeps the cart
+    [Documentation]    Verify that cancelling checkout returns the user to the cart without losing products (state transition).
+    [Tags]    TC-15    low
+    [Setup]    Open Checkout Information Page
+    Click        [data-test="cancel"]
+    Get Url      contains    /cart.html
+    Get Text     [data-test="inventory-item-name"]    ==    Sauce Labs Backpack
+    Get Text     [data-test="shopping-cart-badge"]    ==    1
+
 
 *** Keywords ***
 Open Checkout Information Page

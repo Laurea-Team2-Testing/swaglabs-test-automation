@@ -83,4 +83,23 @@ test.describe('Checkout', () => {
     await expect(page.locator('[data-test="tax-label"]')).toHaveText('Tax: $3.20');
     await expect(page.locator('[data-test="total-label"]')).toHaveText('Total: $43.18');
   });
+
+  test('TC-15 Cancel checkout keeps the cart', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(USERS.standard);
+
+    // Precondition: one product in the cart, on the "Checkout: Your Information" page
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    await page.locator('[data-test="checkout"]').click();
+
+    // Cancel the checkout
+    await page.locator('[data-test="cancel"]').click();
+
+    // Back on the cart page, the product is still in the cart
+    await expect(page).toHaveURL(/cart\.html/);
+    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack');
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+  });
 });
