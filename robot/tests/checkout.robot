@@ -39,6 +39,22 @@ TC-13 Checkout required-field validation
     ${FIRST_NAME}    ${EMPTY}        ${EMPTY}       Error: Last Name is required
     ${FIRST_NAME}    ${LAST_NAME}    ${EMPTY}       Error: Postal Code is required
 
+TC-14 Order overview totals are correct
+    [Documentation]    Verify that the item total, tax and total on the overview page are calculated correctly.
+    [Tags]    TC-14    medium
+    Log In As    ${STANDARD_USER}
+    Click        [data-test="add-to-cart-sauce-labs-backpack"]
+    Click        [data-test="add-to-cart-sauce-labs-bike-light"]
+    Click        [data-test="shopping-cart-link"]
+    Click        [data-test="checkout"]
+    Fill Text    [data-test="firstName"]     ${FIRST_NAME}
+    Fill Text    [data-test="lastName"]      ${LAST_NAME}
+    Fill Text    [data-test="postalCode"]    ${POSTAL_CODE}
+    Click        [data-test="continue"]
+    Get Text     [data-test="subtotal-label"]    ==    Item total: $39.98
+    Get Text     [data-test="tax-label"]         ==    Tax: $3.20
+    Get Text     [data-test="total-label"]       ==    Total: $43.18
+
 
 *** Keywords ***
 Open Checkout Information Page

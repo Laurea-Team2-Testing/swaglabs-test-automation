@@ -62,4 +62,25 @@ test.describe('Checkout', () => {
       await expect(page).toHaveURL(/checkout-step-one\.html/);
     });
   }
+
+  test('TC-14 Order overview totals are correct', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(USERS.standard);
+
+    // Add two products and go to the overview page
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+    await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    await page.locator('[data-test="checkout"]').click();
+    await page.locator('[data-test="firstName"]').fill(CUSTOMER.firstName);
+    await page.locator('[data-test="lastName"]').fill(CUSTOMER.lastName);
+    await page.locator('[data-test="postalCode"]').fill(CUSTOMER.postalCode);
+    await page.locator('[data-test="continue"]').click();
+
+    // Item total = $29.99 + $9.99, total = item total + tax
+    await expect(page.locator('[data-test="subtotal-label"]')).toHaveText('Item total: $39.98');
+    await expect(page.locator('[data-test="tax-label"]')).toHaveText('Tax: $3.20');
+    await expect(page.locator('[data-test="total-label"]')).toHaveText('Total: $43.18');
+  });
 });
